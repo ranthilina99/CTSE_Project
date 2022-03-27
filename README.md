@@ -1,16 +1,15 @@
-# ctseproject
+# Group-ID - 
 
-A new Flutter project.
+## Project Name - Todo Application System
 
-## Getting Started
+## Group Details
 
-This project is a starting point for a Flutter application.
+### Member Details:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Name                            | Student ID    | Username      |
+| ------------------------------- | ------------- | ------------- |
+| Salika Madhushanka W.J          | IT19101620    | Salika952     |
+| P.Y.D Jayasinghe                | IT19117256    | Yasoja44      |
+| K.M. Umesh Ranthilina           | IT19240152    | ranthilina99  |
+| H.H.W.M.Binuka Sihan Paranagama | IT19129372    | shehanblast   |
+                                                             
