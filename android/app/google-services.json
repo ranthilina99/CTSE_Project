@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "294869753641",
+    "project_id": "ctse-flutter-project-e59d6",
+    "storage_bucket": "ctse-flutter-project-e59d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294869753641:android:b6083f4bca677633562138",
+        "android_client_info": {
+          "package_name": "com.example.ctseproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294869753641-tppklqt7aismu761vpufj4u6le1qnh18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8RaBYnL-pebLhADyB97xfghnLwV9j2yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294869753641-tppklqt7aismu761vpufj4u6le1qnh18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "294869753641-3grobt7j96imvg6g7t9q9eo8fk4icseu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ctseproject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
