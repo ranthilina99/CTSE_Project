@@ -15,10 +15,10 @@ class _ProfileState extends State<Profile> {
 
   var firstName = " ";
   var lastName = " ";
-  var mobile = " ";
+  var email = " ";
 
   final uid = FirebaseAuth.instance.currentUser!.uid;
-  final email = FirebaseAuth.instance.currentUser!.email;
+  // final email = FirebaseAuth.instance.currentUser!.email;
   final creationTime = FirebaseAuth.instance.currentUser!.metadata.creationTime;
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -38,7 +38,7 @@ class _ProfileState extends State<Profile> {
       setState(() {
         firstName = loggedInUser.firstName.toString();
         lastName = loggedInUser.lastName.toString();
-        //mobile = loggedInUser.mobile;
+        email = loggedInUser.email.toString();
       });
     });
   }
@@ -60,9 +60,13 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.0,vertical:60.0),
-      child: Column(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Profile"),
+          backgroundColor: Color(0xff070706),
+        ),
+        backgroundColor: Colors.white,
+        body:Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),

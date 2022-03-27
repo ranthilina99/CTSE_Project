@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctseproject/Screens/forgot.dart';
 import 'package:ctseproject/Screens/register.dart';
 import 'package:ctseproject/Screens/home.dart';
+import 'package:ctseproject/main/admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../model/user.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -16,14 +20,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   var email = " ";
   var password = " ";
+  int? isUser;
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  UserModel loggedInUser = UserModel();
+
   userLogin() async{
     try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen(),),);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
+          .then((value){
+        checkUserLevel(value.user!.uid);
+           //print(value.user!.uid);
+      });
 
     }on FirebaseException catch(error){
       if(error.code == 'user not found'){
@@ -59,6 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Login"),
+        backgroundColor: Color(0xff070706),
+      ),
       backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
@@ -132,26 +146,29 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(),
-                child:
-                    RawMaterialButton(onPressed: (){
-                      if(_formKey.currentState!.validate()){
-                        setState(() {
-                          email=emailController.text;
-                          password = passwordController.text;
-                        });
-                        userLogin();
-                      }
-                    },
+                child:Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(30),
+                  color: Color(0xff070706),
+                  child: MaterialButton(
+                      padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
+                      onPressed: () {
+                        if(_formKey.currentState!.validate()){
+                          setState(() {
+                            email=emailController.text;
+                            password = passwordController.text;
+                          });
+                          userLogin();
+                        }
+                      },
                       child: Text(
                         "Login",
-                        style: TextStyle(fontSize: 20.0,color: Colors.white),
-                      ),
-                      fillColor: Color(0xFF0069FE),
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0)
-                      ),
-                    ),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                   ),
                 ),
               Container(
                 child: Row(
@@ -173,5 +190,29 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  checkUserLevel(String uid) {
+    print(uid);
+    FirebaseFirestore.instance
+          .collection("Users")
+          .doc(uid)
+          .get()
+          .then((value) {
+        this.loggedInUser = UserModel.fromMap(value.data());
+        print(loggedInUser.isUser.toString());
+
+        setState(() {
+          isUser = loggedInUser.isUser;
+          print(isUser);
+
+          if(isUser == 1){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen(),),);
+          }
+          else if(isUser == 0){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminScreen(),),);
+          }
+      });
+    });
   }
 }

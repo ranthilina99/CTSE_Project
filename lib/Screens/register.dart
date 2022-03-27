@@ -46,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         userModel.password = password;
         userModel.lastName = lastName;
         userModel.firstName = firstName;
+        userModel.isUser = 1;
 
         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) {
           FirebaseFirestore.instance.collection('Users').doc(value.user?.uid).set(
@@ -93,6 +94,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Register"),
+        backgroundColor: Color(0xff070706),
+      ),
       backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
@@ -206,26 +211,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Container(
-                child: RawMaterialButton(onPressed: (){
-                  if(_formKey.currentState!.validate()){
-                    setState(() {
-                      firstName= firstNameController.text;
-                      lastName= lastNameController.text;
-                      email= emailController.text;
-                      password = passwordController.text;
-                      confirmPassword = confirmPasswordController.text;
-                    });
-                    registration();
-                  }
-                },
-                  child: Text('Register',
-                    style: TextStyle(fontSize: 20.0,color: Colors.white),
-                  ),
-                  fillColor: Color(0xFF0069FE),
-                  elevation: 0.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)
-                  ),
+                child:Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(30),
+                  color: Color(0xff070706),
+                  child: MaterialButton(
+                      padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
+                      onPressed: () {
+                        if(_formKey.currentState!.validate()){
+                          setState(() {
+                            firstName= firstNameController.text;
+                            lastName= lastNameController.text;
+                            email= emailController.text;
+                            password = passwordController.text;
+                            confirmPassword = confirmPasswordController.text;
+                          });
+                          registration();
+                        }
+                      },
+                      child: Text(
+                        "Register",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
                 ),
               ),
               SizedBox(height: 15,),
