@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: "CTSE FLUTTER PROJECT",
           theme: ThemeData(
-            primaryColor: Color(0xFF0069FE),
+            primaryColor: Color(0xff070706),
           ),
           home: const LoginScreen(),
         );

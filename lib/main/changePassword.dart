@@ -46,6 +46,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Change Password"),
+        backgroundColor: Color(0xff070706),
       ),
       backgroundColor: Colors.white,
       body: Form(
@@ -80,17 +81,28 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                 ),
               ),
-              ElevatedButton(onPressed: (){
-                if(_formKey.currentState!.validate()){
-                  setState(() {
-                    newPassword = newPasswordController.text;
-                  });
-                  changePassword();
-                }
-              },
-                  child: Text("Change Password",
-                  style: TextStyle(fontSize: 10.0),
-                  ),
+              SizedBox(height: 45),
+              Material(
+                elevation: 5,
+                borderRadius: BorderRadius.circular(30),
+                color: Color(0xff070706),
+                child: MaterialButton(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
+                    onPressed: () {
+                      if(_formKey.currentState!.validate()){
+                        setState(() {
+                          newPassword = newPasswordController.text;
+                        });
+                        changePassword();
+                      }
+                    },
+                    child: Text(
+                      "Change Password",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
               ),
             ],
           ),

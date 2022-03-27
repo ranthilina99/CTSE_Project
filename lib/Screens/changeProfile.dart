@@ -38,6 +38,7 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Update Profile"),
+        backgroundColor: Color(0xff070706),
       ),
       body: Form(
           key: _formKey,
@@ -130,11 +131,15 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
                         },
                       ),
                     ),
+                    SizedBox(height: 45),
                     Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton(
+                      child: Material(
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color(0xff070706),
+                        child: MaterialButton(
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 update(uid, firstName, email, lastName);
@@ -142,13 +147,13 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
                               }
                             },
                             child: Text(
-                              'Update',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ),
-                        ],
+                              "Update Profile",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                            )),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

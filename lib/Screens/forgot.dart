@@ -57,6 +57,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Reset Password"),
+        backgroundColor: Color(0xff070706),
       ),
       body: Column(
         children: [
@@ -103,22 +104,27 @@ class _ForgotScreenState extends State<ForgotScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            RawMaterialButton(onPressed: (){
-                              if(_formKey.currentState!.validate()){
-                                setState(() {
-                                  email=emailController.text;
-                                });
-                                resetPassword();
-                              }
-                            },
-                                child: Text("  Reset Password  ",
-                                style: TextStyle(fontSize: 13.0,color: Colors.white
-                                ),),
-                              fillColor: Color(0xFF0069FE),
-                              elevation: 0.0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)
-                              ),
+                            Material(
+                              elevation: 5,
+                              borderRadius: BorderRadius.circular(30),
+                              color: Color(0xff070706),
+                              child: MaterialButton(
+                                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
+                                  onPressed: () {
+                                    if(_formKey.currentState!.validate()){
+                                      setState(() {
+                                        email=emailController.text;
+                                      });
+                                      resetPassword();
+                                    }
+                                  },
+                                  child: Text(
+                                    "Forgot Password",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+                                  )),
                             ),
                             TextButton(onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen(),),);
