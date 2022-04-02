@@ -1,23 +1,26 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ctseproject/Screens/viewnote.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../Screens/Login.dart';
+import 'addnote.dart';
 
-class AdminScreen extends StatefulWidget {
-  const AdminScreen({Key? key}) : super(key: key);
+class TodoListScreen extends StatefulWidget {
+  const TodoListScreen({Key? key}) : super(key: key);
 
   @override
-  _AdminScreenState createState() => _AdminScreenState();
+  _TodoListScreenState createState() => _TodoListScreenState();
 }
 
-class _AdminScreenState extends State<AdminScreen> {
+class _TodoListScreenState extends State<TodoListScreen> {
 
   CollectionReference ref = FirebaseFirestore.instance
-      .collection('Users');
+      .collection('Users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('notes');
 
   List<Color> myColors = [
     Colors.yellow,
@@ -30,31 +33,35 @@ class _AdminScreenState extends State<AdminScreen> {
     Colors.tealAccent,
     Colors.pink,
   ];
-  logout() async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()), (
-        route) => false);
-    print("Thank You");
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Thank You",
-        style: TextStyle(fontSize: 15.0),),),);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+            MaterialPageRoute(
+              builder: (context) => AddNote(),
+            ),
+          )
+              .then((value) {
+            print("Calling Set  State !");
+            setState(() {});
+          });
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white70,
+        ),
+        backgroundColor: Colors.grey[700],
+      ),
+      //
       appBar: AppBar(
         title: Text(
-          "Users",
+          "Notes",
         ),
-          backgroundColor: Color(0xff0095FF),
-            actions: <Widget>[
-        // First button - decrement
-            IconButton(
-            icon: Icon(Icons.logout_outlined), // The "-" icon
-            onPressed: logout, // The `_decrementCounter` function
-          ),]
+        backgroundColor: Color(0xff0095FF),
       ),
       //
       body: FutureBuilder<QuerySnapshot>(
@@ -78,17 +85,35 @@ class _AdminScreenState extends State<AdminScreen> {
                 Random random = new Random();
                 Color bg = myColors[random.nextInt(4)];
                 Map? data = snapshot.data!.docs[index].data() as Map?;
+                DateTime mydateTime = data!['created'].toDate();
+                String formattedTime =
+                DateFormat.yMMMd().add_jm().format(mydateTime);
 
                 return InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(
+                      MaterialPageRoute(
+                        builder: (context) => ViewNote(
+                          data,
+                          formattedTime,
+                          snapshot.data!.docs[index].reference,
+                        ),
+                      ),
+                    )
+                        .then((value) {
+                      setState(() {});
+                    });
+                  },
                   child: Card(
-                    color: Colors.blue,
+                    color: bg,
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${data!['firstName']}"" ""${data['lastName']}",
+                            "${data['title']}",
                             style: TextStyle(
                               fontSize: 24.0,
                               fontFamily: "lato",
@@ -96,20 +121,11 @@ class _AdminScreenState extends State<AdminScreen> {
                               color: Colors.black87,
                             ),
                           ),
-                          Text(
-                            "${data['email']}",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: "lato",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-
+                          //
                           Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              "${data['isUser']}",
+                              formattedTime,
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: "lato",
@@ -117,7 +133,6 @@ class _AdminScreenState extends State<AdminScreen> {
                               ),
                             ),
                           ),
-                          //
                         ],
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'Screens/login.dart';
+import 'Screens/splash.dart';
 
 
 void main() {
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primaryColor: Color(0xff070706),
           ),
-          home: const LoginScreen(),
+          home: const SplashScreen(),
         );
       },
     );

@@ -26,11 +26,17 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
   FirebaseFirestore.instance.collection('Users');
 
   Future<void> update(uid, firstName, email, lastName) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+      content: Text("Update Successfully",
+        style: TextStyle(fontSize: 15.0),),),);
+
     return users
         .doc(uid)
         .update({'firstName': firstName, 'email': email, 'lastName': lastName})
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
+
   }
 
   @override
@@ -38,7 +44,7 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Update Profile"),
-        backgroundColor: Color(0xff070706),
+        backgroundColor: Color(0xff0095FF),
       ),
       body: Form(
           key: _formKey,
@@ -136,7 +142,7 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
                       child: Material(
                         elevation: 5,
                         borderRadius: BorderRadius.circular(30),
-                        color: Color(0xff070706),
+                        color: Color(0xff0095FF),
                         child: MaterialButton(
                             padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
 

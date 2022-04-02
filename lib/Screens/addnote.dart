@@ -16,7 +16,7 @@ class _AddNoteState extends State<AddNote> {
     return  Scaffold(
       appBar: AppBar(
         title: Text("Add Notes"),
-        backgroundColor: Color(0xff070706),
+        backgroundColor: Color(0xff0095FF),
       ),
         body: SingleChildScrollView(
           child: Container(
@@ -38,7 +38,7 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          Color(0xff070706),
+                          Color(0xff0095FF),
                         ),
                         padding: MaterialStateProperty.all(
                           EdgeInsets.symmetric(
@@ -61,7 +61,7 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          Color(0xff070706),
+                          Color(0xff0095FF),
                         ),
                         padding: MaterialStateProperty.all(
                           EdgeInsets.symmetric(
@@ -138,6 +138,10 @@ class _AddNoteState extends State<AddNote> {
     };
 
     ref.add(data);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.green,
+      content: Text("Note Create Successfully",
+        style: TextStyle(fontSize: 15.0),),),);
 
     //
 

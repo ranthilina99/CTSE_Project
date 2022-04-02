@@ -5,6 +5,7 @@ import 'package:ctseproject/Screens/home.dart';
 import 'package:ctseproject/main/admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../model/user.dart';
 
@@ -32,12 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
           .then((value){
         checkUserLevel(value.user!.uid);
-           //print(value.user!.uid);
       });
 
     }on FirebaseException catch(error){
+
       if(error.code == 'user not found'){
-        print('No user found for that email');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.blueGrey,
           content: Text('No user found for that email',
@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),),
         ),);
       }else if(error.code == 'wrong password'){
-        print('Wrong password provide by the user');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.blueGrey,
           content: Text('Wrong password provide by the user',
@@ -71,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
-        backgroundColor: Color(0xff070706),
+        backgroundColor: Color(0xff0095FF),
       ),
       backgroundColor: Colors.white,
       body: Form(
@@ -99,8 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: (value){
                     if(value==null || value.isEmpty){
                       return 'Please enter email';
-                    }else if(!value.contains("@")){
-                      return 'Please enter valid email';
+                    }
+                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+                      return ("Please Enter a valid email");
                     }
                     return null;
                   },
@@ -121,9 +121,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     controller: passwordController,
                     validator:(value) {
+                      RegExp regex = new RegExp(r'^.{6,}$');
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
+                      // if (!regex.hasMatch(value)) {
+                      //   return ("Enter Valid Password(Min. 6 Character)");
+                      // }
                       return null;
                     }
                 ),
@@ -138,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                       child: Text(
                         "Forgot password",
-                        style: TextStyle(fontSize: 12.0),
+                        style: TextStyle(fontSize: 15.0),
                       ),
                     ),
                   ],
@@ -149,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child:Material(
                   elevation: 5,
                   borderRadius: BorderRadius.circular(30),
-                  color: Color(0xff070706),
+                  color:  Color(0xff0095FF),
                   child: MaterialButton(
                       padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
 
@@ -180,6 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                       child: Text(
                         "Register",
+                        style: TextStyle(fontSize: 15.0),
                       ),
                     ),
                   ],
@@ -207,10 +212,19 @@ class _LoginScreenState extends State<LoginScreen> {
           print(isUser);
 
           if(isUser == 1){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.green,
+              content: Text("Login Successfully",
+                style: TextStyle(fontSize: 15.0),),),);
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen(),),);
           }
           else if(isUser == 0){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.green,
+              content: Text("Admin Login Successfully",
+                style: TextStyle(fontSize: 15.0),),),);
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminScreen(),),);
+
           }
       });
     });

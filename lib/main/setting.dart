@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctseproject/Screens/changeProfile.dart';
 import 'package:ctseproject/Screens/login.dart';
-import 'package:ctseproject/main/changePassword.dart';
+import 'package:ctseproject/Screens/changePassword.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +26,10 @@ class _SettingState extends State<Setting> {
     try{
       await FirebaseFirestore.instance.collection("Users").doc(uid).delete();
       FirebaseAuth.instance.signOut();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.black,
+        content: Text("Delete Successfully",
+          style: TextStyle(fontSize: 20.0),),),);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
     }catch(error){
       print(error);
@@ -52,7 +56,7 @@ class _SettingState extends State<Setting> {
     final ChangeProfile = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Color(0xff070706),
+      color: Color(0xff0095FF),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery
@@ -73,7 +77,7 @@ class _SettingState extends State<Setting> {
     final ChangePasssword = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Color(0xff070706),
+      color: Color(0xff0095FF),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery
@@ -94,7 +98,7 @@ class _SettingState extends State<Setting> {
     final Delete = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Color(0xff070706),
+      color: Color(0xff0095FF),
       child: MaterialButton(
 
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -115,7 +119,7 @@ class _SettingState extends State<Setting> {
     final Logout = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      color: Color(0xff0095FF),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery
@@ -132,10 +136,50 @@ class _SettingState extends State<Setting> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
+    final Aboutus = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: Color(0xff0095FF),
+      child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
+          onPressed: () {
+
+          },
+          child: Text(
+            "About us",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+    );
+    final ContactUs = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: Color(0xff0095FF),
+      child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
+          onPressed: () {
+
+          },
+          child: Text(
+            "ContactUs",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text("Setting"),
-        backgroundColor: Color(0xff070706),
+        backgroundColor: Color(0xff0095FF),
       ),
       backgroundColor: Colors.white,
       body: Center(
@@ -149,15 +193,17 @@ class _SettingState extends State<Setting> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 45),
+                    SizedBox(height: 35),
                     ChangeProfile,
-                    SizedBox(height: 25),
+                    SizedBox(height: 35),
                     ChangePasssword,
                     SizedBox(height: 35),
                     Delete,
-                    SizedBox(height: 155),
-                    Logout,
-                    SizedBox(height: 15),
+                    SizedBox(height: 35),
+                    Aboutus,
+                    SizedBox(height: 35),
+                    ContactUs,
+                    SizedBox(height: 35),
                   ],
                 ),
               ),

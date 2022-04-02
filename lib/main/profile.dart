@@ -63,7 +63,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
-          backgroundColor: Color(0xff070706),
+          backgroundColor: Color(0xff0095FF),
         ),
         backgroundColor: Colors.white,
         body:Column(

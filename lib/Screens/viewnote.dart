@@ -25,7 +25,10 @@ class _ViewNoteState extends State<ViewNote> {
     des = widget.data['description'];
     return SafeArea(
       child: Scaffold(
-        //
+        appBar: AppBar(
+          title: Text("View Note"),
+          backgroundColor: Color(0xff0095FF),
+        ),
         floatingActionButton: edit
             ? FloatingActionButton(
                 onPressed: save,
@@ -55,11 +58,11 @@ class _ViewNoteState extends State<ViewNote> {
                       },
                       child: Icon(
                         Icons.arrow_back_ios_outlined,
-                        size: 24.0,
+                        size: 0.0,
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          Colors.grey[700],
+                          Colors.white,
                         ),
                         padding: MaterialStateProperty.all(
                           EdgeInsets.symmetric(
@@ -84,7 +87,7 @@ class _ViewNoteState extends State<ViewNote> {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              Colors.grey[700],
+                              Color(0xff0095FF),
                             ),
                             padding: MaterialStateProperty.all(
                               EdgeInsets.symmetric(
@@ -107,7 +110,7 @@ class _ViewNoteState extends State<ViewNote> {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              Colors.red[300],
+                              Colors.red,
                             ),
                             padding: MaterialStateProperty.all(
                               EdgeInsets.symmetric(
@@ -208,12 +211,20 @@ class _ViewNoteState extends State<ViewNote> {
 
   void delete() async {
     // delete from db
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.black,
+      content: Text("Delete Successfully",
+        style: TextStyle(fontSize: 15.0),),),);
     await widget.ref.delete();
     Navigator.pop(context);
   }
 
   void save() async {
     if (key.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Update Successfully",
+          style: TextStyle(fontSize: 15.0),),),);
       // TODo : showing any kind of alert that new changes have been saved
       await widget.ref.update(
         {'title': title, 'description': des},

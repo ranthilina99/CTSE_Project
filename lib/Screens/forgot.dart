@@ -23,9 +23,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
     try{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.amber,
+          backgroundColor: Colors.green,
           content: Text("Password Reset Email has been sent",
-          style: TextStyle(fontSize: 10.0),
+          style: TextStyle(fontSize: 15.0),
           ),
       ),);
 
@@ -57,7 +57,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Reset Password"),
-        backgroundColor: Color(0xff070706),
+        backgroundColor: Color(0xff0095FF),
       ),
       body: Column(
         children: [
@@ -92,8 +92,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
                           validator: (value){
                             if(value == null || value.isEmpty){
                               return 'Please enter email';
-                            }else if(!value.contains('@')){
-                              return 'Please enter valid email';
+                            }
+                            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+                              return ("Please Enter a valid email");
                             }
                             return null;
                           },
@@ -107,7 +108,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                             Material(
                               elevation: 5,
                               borderRadius: BorderRadius.circular(30),
-                              color: Color(0xff070706),
+                              color: Color(0xff0095FF),
                               child: MaterialButton(
                                   padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
 
@@ -130,7 +131,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen(),),);
                             },
                                 child: Text("Login",
-                                style: TextStyle(fontSize: 13.0),
+                                style: TextStyle(fontSize: 15.0),
                                 ),
                             ),
                           ],
@@ -145,7 +146,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
                               Navigator.pushAndRemoveUntil(context, PageRouteBuilder(pageBuilder: (context,a,b)=>RegisterScreen(),
                               transitionDuration: Duration(seconds: 0),), (route) => false);
                             },
-                                child: Text("Register"),
+                                child: Text("Register",
+                                  style: TextStyle(fontSize: 15.0),
+                                ),
                             )
                           ],
                         ),
