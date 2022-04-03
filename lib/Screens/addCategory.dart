@@ -2,24 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AddNote extends StatefulWidget {
-  String id;
-
-  AddNote(this.id);
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({Key? key}) : super(key: key);
 
   @override
-  _AddNoteState createState() => _AddNoteState();
+  _CategoryScreenState createState() => _CategoryScreenState();
 }
 
-class _AddNoteState extends State<AddNote> {
+class _CategoryScreenState extends State<CategoryScreen> {
   late String title;
   late String des;
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: Text("Add Todo"),
+        title: Text("Add Category"),
         backgroundColor: Color(0xff0095FF),
       ),
       body: SingleChildScrollView(
@@ -54,9 +52,7 @@ class _AddNoteState extends State<AddNote> {
                   ),
                   //
                   ElevatedButton(
-                    onPressed:(){
-                      add(widget.id);
-                    },
+                    onPressed: add,
                     child: Text(
                       "Save",
                       style: TextStyle(
@@ -107,7 +103,7 @@ class _AddNoteState extends State<AddNote> {
                       padding: const EdgeInsets.only(top: 12.0),
                       child: TextFormField(
                         decoration: InputDecoration.collapsed(
-                          hintText: "Todo Description",
+                          hintText: "Category Description",
                         ),
                         style: TextStyle(
                           fontSize: 20.0,
@@ -130,29 +126,27 @@ class _AddNoteState extends State<AddNote> {
     );
   }
 
-void add(String id) async {
-  // save to db
-  CollectionReference ref = FirebaseFirestore.instance
-      .collection('Users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('Categories')
-      .doc(id)
-      .collection('Todo');
+  void add() async {
+    // save to db
+    CollectionReference ref = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('Categories');
 
-  var data = {
-    'title': title,
-    'description': des,
-    'created': DateTime.now(),
-  };
+    var data = {
+      'title': title,
+      'description': des,
+      'created': DateTime.now(),
+    };
 
-  ref.add(data);
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: Colors.green,
-    content: Text("Category Create Successfully",
-      style: TextStyle(fontSize: 15.0),),),);
+    ref.add(data);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.green,
+      content: Text("Category Create Successfully",
+        style: TextStyle(fontSize: 15.0),),),);
 
-  //
+    //
 
-  Navigator.pop(context);
-}
+    Navigator.pop(context);
+  }
 }

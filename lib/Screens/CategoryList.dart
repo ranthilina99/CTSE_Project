@@ -1,26 +1,28 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ctseproject/Screens/viewnote.dart';
+import 'package:ctseproject/Screens/addCategory.dart';
+import 'package:ctseproject/Screens/todolist.dart';
+import 'package:ctseproject/Screens/viewCategory.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'addnote.dart';
-
-class TodoListScreen extends StatefulWidget {
-  String id;
-
-  TodoListScreen(this.id);
+class CategoryList extends StatefulWidget {
+  const CategoryList({Key? key}) : super(key: key);
 
   @override
-  _TodoListScreenState createState() => _TodoListScreenState();
+  _CategoryListState createState() => _CategoryListState();
 }
 
-class _TodoListScreenState extends State<TodoListScreen> {
+class _CategoryListState extends State<CategoryList> {
+  CollectionReference ref = FirebaseFirestore.instance
+      .collection('Users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('Categories');
 
   List<Color> myColors = [
-    Color(0xFFFCE4EC),
+    Color(0xFFFCE4Ed),
     Color(0xFFE8F5E9),
     Color(0xFFE3F2FD),
     Color(0xFFFFF3E0),
@@ -40,12 +42,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
           Navigator.of(context)
               .push(
             MaterialPageRoute(
-              builder: (context) => AddNote(
-                widget.id,
-              ),
+              builder: (context) => CategoryScreen(),
             ),
           )
               .then((value) {
+            print("Calling Set  State !");
             setState(() {});
           });
         },
@@ -58,17 +59,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
       //
       appBar: AppBar(
         title: Text(
-          "Notes",
+          "Category",
         ),
         backgroundColor: Color(0xff0095FF),
       ),
       //
       body: FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection("Users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('Categories')
-            .doc(widget.id)
-            .collection('Todo').get(),
+        future: ref.get(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.docs.length == 0) {
@@ -88,6 +85,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 Random random = new Random();
                 Color bg = myColors[random.nextInt(4)];
                 Map? data = snapshot.data!.docs[index].data() as Map?;
+                String docId = snapshot.data!.docs[index].id;
                 DateTime mydateTime = data!['created'].toDate();
                 String formattedTime =
                 DateFormat.yMMMd().add_jm().format(mydateTime);
@@ -97,10 +95,8 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     Navigator.of(context)
                         .push(
                       MaterialPageRoute(
-                        builder: (context) => ViewNote(
-                          data,
-                          formattedTime,
-                          snapshot.data!.docs[index].reference,
+                        builder: (context) => TodoListScreen(
+                          docId,
                         ),
                       ),
                     )
@@ -127,13 +123,37 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           //
                           Container(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              formattedTime,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: "lato",
-                                color: Colors.black87,
-                              ),
+                            child:Column(
+                              children: [
+                                Material(
+                                  color: Colors.white,
+                                  child: Ink(
+                                    decoration: const ShapeDecoration(
+                                      color: Colors.green,
+                                      shape: CircleBorder(),
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .push(
+                                          MaterialPageRoute(
+                                            builder: (context) => ViewCategory(
+                                              data,
+                                              formattedTime,
+                                              snapshot.data!.docs[index].reference,
+                                            ),
+                                          ),
+                                        )
+                                            .then((value) {
+                                          setState(() {});
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],

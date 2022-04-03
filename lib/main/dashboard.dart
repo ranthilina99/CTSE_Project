@@ -1,3 +1,5 @@
+import 'package:ctseproject/Screens/CategoryList.dart';
+import 'package:ctseproject/Screens/addCategory.dart';
 import 'package:ctseproject/Screens/todolist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +63,7 @@ class _DashboardState extends State<Dashboard> {
 
                 onPressed: () {
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TodoListScreen(),),);
+                    MaterialPageRoute(builder: (context) => CategoryList(),),);
                 },
                 child: Text(
                   "Todo List",

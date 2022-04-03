@@ -42,6 +42,7 @@ dependencies:
   get: 4.1.4
   flutter_settings_screens: ^0.3.2-null-safety
   fluttertoast: ^8.0.9
+  auto_size_text: ^2.1.0
 
     # state management
   provider: any
