@@ -1,4 +1,3 @@
-import 'package:ctseproject/main/changePassword.dart';
 import 'package:ctseproject/main/dashboard.dart';
 import 'package:ctseproject/main/profile.dart';
 import 'package:ctseproject/main/setting.dart';

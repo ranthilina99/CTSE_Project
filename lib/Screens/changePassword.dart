@@ -31,14 +31,14 @@ class _ChangePasswordState extends State<ChangePassword> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.black26,
-        content: Text('Your password has been reset please login again',
-          style: TextStyle(
-              fontSize: 10.0,color: Colors.white
-          ),),
-      ),);
+        backgroundColor: Colors.green,
+        content: Text("Your password has been reset please login again",
+          style: TextStyle(fontSize: 15.0),),),);
     }catch(error){
-
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text("Please Try Again",
+          style: TextStyle(fontSize: 15.0),),),);
     }
   }
   @override
@@ -46,7 +46,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Change Password"),
-        backgroundColor: Color(0xff070706),
+        backgroundColor: Color(0xff0095FF),
       ),
       backgroundColor: Colors.white,
       body: Form(
@@ -73,9 +73,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                   controller: newPasswordController,
                   validator: (value){
-                    if(value == null || value.isEmpty){
+                    RegExp regex = new RegExp(r'^.{6,}$');
+                    if (value == null || value.isEmpty) {
                       return 'Please enter password';
                     }
+                    // if (!regex.hasMatch(value)) {
+                    //   return ("Enter Valid Password(Min. 6 Character)");
+                    // }
                     return null;
                   },
 
@@ -85,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               Material(
                 elevation: 5,
                 borderRadius: BorderRadius.circular(30),
-                color: Color(0xff070706),
+                color: Color(0xff0095FF),
                 child: MaterialButton(
                     padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
 

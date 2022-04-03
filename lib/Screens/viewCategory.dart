@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ViewNote extends StatefulWidget {
+class ViewCategory extends StatefulWidget {
+
   Map data;
   String time;
   DocumentReference ref;
 
-  ViewNote(this.data, this.time, this.ref);
+  ViewCategory(this.data, this.time, this.ref);
 
   @override
-  _ViewNoteState createState() => _ViewNoteState();
+  _ViewCategoryState createState() => _ViewCategoryState();
 }
 
-class _ViewNoteState extends State<ViewNote> {
+class _ViewCategoryState extends State<ViewCategory> {
+
   var title;
   var des;
 
@@ -26,18 +28,18 @@ class _ViewNoteState extends State<ViewNote> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("View Note"),
+          title: Text("View Category"),
           backgroundColor: Color(0xff0095FF),
         ),
         floatingActionButton: edit
             ? FloatingActionButton(
-                onPressed: save,
-                child: Icon(
-                  Icons.save_rounded,
-                  color: Colors.white,
-                ),
-                backgroundColor: Colors.grey[700],
-              )
+          onPressed: save,
+          child: Icon(
+            Icons.save_rounded,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.grey[700],
+        )
             : null,
         //
         resizeToAvoidBottomInset: false,
@@ -177,7 +179,7 @@ class _ViewNoteState extends State<ViewNote> {
 
                       TextFormField(
                         decoration: InputDecoration.collapsed(
-                          hintText: "Note Description",
+                          hintText: "Category Description",
                         ),
                         style: TextStyle(
                           fontSize: 20.0,
@@ -212,7 +214,7 @@ class _ViewNoteState extends State<ViewNote> {
   void delete() async {
     // delete from db
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.green,
       content: Text("Delete Successfully",
         style: TextStyle(fontSize: 15.0),),),);
     await widget.ref.delete();

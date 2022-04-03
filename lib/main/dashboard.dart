@@ -1,151 +1,81 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ctseproject/Screens/CategoryList.dart';
+import 'package:ctseproject/Screens/addCategory.dart';
+import 'package:ctseproject/Screens/todolist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import '../Screens/addnote.dart';
-import '../Screens/viewnote.dart';
+import '../Screens/Login.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
+
 
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  CollectionReference ref = FirebaseFirestore.instance
-      .collection('Users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('notes');
 
-  List<Color> myColors = [
-    Colors.yellow,
-    Colors.red,
-    Colors.green,
-    Colors.deepPurple,
-    Colors.purple,
-    Colors.cyan,
-    Colors.teal,
-    Colors.tealAccent,
-    Colors.pink,
-  ];
+  logout() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()), (
+        route) => false);
+    print("Thank You");
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.black,
+      content: Text("Thank You",
+        style: TextStyle(fontSize: 20.0),),),);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-            MaterialPageRoute(
-              builder: (context) => AddNote(),
-            ),
-          )
-              .then((value) {
-            print("Calling Set  State !");
-            setState(() {});
-          });
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white70,
+        appBar: AppBar(
+          title: Text(
+            "Home",
+          ),
+          backgroundColor: Color(0xff0095FF),
+            actions: <Widget>[
+              // First button - decrement
+              IconButton(
+                icon: Icon(Icons.logout_outlined), // The "-" icon
+                onPressed: logout, // The `_decrementCounter` function
+              ),]
         ),
-        backgroundColor: Colors.grey[700],
-      ),
-      //
-      appBar: AppBar(
-        title: Text(
-          "Notes",
-        ),
-        backgroundColor: Color(0xff070706),
-      ),
-      //
-      body: FutureBuilder<QuerySnapshot>(
-        future: ref.get(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.docs.length == 0) {
-              return Center(
+      body: Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 100.0,horizontal: 28.0),
+        child: ListView(
+            children: [
+        Padding(padding: const EdgeInsets.all(0.0),
+        child: Image.asset("images/dashboard.png"),
+         ),
+              SizedBox(height: 125),
+        Container(
+          margin: EdgeInsets.symmetric(),
+          child:Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(30),
+            color: Color(0xff0095FF),
+            child: MaterialButton(
+                padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
+                onPressed: () {
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CategoryList(),),);
+                },
                 child: Text(
-                  "You have no saved Notes !",
+                  "Todo List",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white70,
-                  ),
-                ),
-              );
-            }
-
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                Random random = new Random();
-                Color bg = myColors[random.nextInt(4)];
-                Map? data = snapshot.data!.docs[index].data() as Map?;
-                DateTime mydateTime = data!['created'].toDate();
-                String formattedTime =
-                DateFormat.yMMMd().add_jm().format(mydateTime);
-
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(
-                      MaterialPageRoute(
-                        builder: (context) => ViewNote(
-                          data,
-                          formattedTime,
-                          snapshot.data!.docs[index].reference,
-                        ),
-                      ),
-                    )
-                        .then((value) {
-                      setState(() {});
-                    });
-                  },
-                  child: Card(
-                    color: bg,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${data['title']}",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: "lato",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          //
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              formattedTime,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: "lato",
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          } else {
-            return Center(
-              child: Text("Loading..."),
-            );
-          }
-        },
+                      fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                )),
+          ),
+        ),
+      ]
       ),
+    ))
     );
   }
 }
