@@ -48,7 +48,10 @@ class _BudgectScreenState extends State<BudgectScreen> {
         .doc(id)
         .collection("Budget");
     ref.add(data);
-    Fluttertoast.showToast(msg: "Added Successfully");
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.green,
+      content: Text("Budget Adding Successfully",
+        style: TextStyle(fontSize: 15.0),),),);
   }
 
   @override
@@ -123,12 +126,19 @@ class _BudgectScreenState extends State<BudgectScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: TextField(
+                            child: TextFormField(
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: 'For what?',
                               ),
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return 'Enter a name';
+                                }
+                                return null;
+                              },
                               controller: _textcontrollerITEM,
+
                             ),
                           ),
                         ],

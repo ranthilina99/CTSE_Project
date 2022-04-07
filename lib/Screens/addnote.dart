@@ -219,15 +219,10 @@ class _AddNoteState extends State<AddNote> {
       addTaskToDatabase(id);
       Get.back();
     } else if (_titleController.text.isEmpty || _noteController.text.isEmpty) {
-      Get.snackbar("Required", "All fields are required !",
-          snackPosition: SnackPosition.BOTTOM,
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-          icon: const Icon(
-            Icons.warning_amber_outlined,
-            color: Colors.red,
-          ),
-          colorText: Colors.red);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Adding Failed",
+          style: TextStyle(fontSize: 15.0),),),);
     }
   }
 

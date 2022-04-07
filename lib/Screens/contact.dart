@@ -21,7 +21,7 @@ class Contact extends StatelessWidget {
             children:  [
           Container(
             padding: EdgeInsets.only(top:35.0),
-            child: Image.asset("images/change.jpg",width: 100),
+            child: Image.asset("images/contact.jpg",width: 100),
           ),
                         SizedBox(
                 width: double.infinity,

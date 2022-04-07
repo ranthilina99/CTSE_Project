@@ -32,8 +32,8 @@ class MyInputField extends StatelessWidget {
             padding: const EdgeInsets.only(left: 14),
             margin: const EdgeInsets.only(top: 8),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1.0),
-                borderRadius: BorderRadius.circular(12)
+                border: Border.all(color: Colors.blueAccent, width: 1.0),
+                borderRadius: BorderRadius.circular(12),
             ),
             child:Row(
               children: [

@@ -212,7 +212,7 @@ class _ViewNoteState extends State<ViewNote> {
   void delete() async {
     // delete from db
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.green,
       content: Text("Delete Successfully",
         style: TextStyle(fontSize: 15.0),),),);
     await widget.ref.delete();

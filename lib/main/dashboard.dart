@@ -23,7 +23,7 @@ class _DashboardState extends State<Dashboard> {
         route) => false);
     print("Thank You");
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blueAccent,
       content: Text("Thank You",
         style: TextStyle(fontSize: 20.0),),),);
   }

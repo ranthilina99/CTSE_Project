@@ -6,6 +6,7 @@ import 'package:ctseproject/Screens/todolist.dart';
 import 'package:ctseproject/Screens/viewCategory.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 class CategoryList extends StatefulWidget {
@@ -90,77 +91,73 @@ class _CategoryListState extends State<CategoryList> {
                 String formattedTime =
                 DateFormat.yMMMd().add_jm().format(mydateTime);
 
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(
-                      MaterialPageRoute(
-                        builder: (context) => TodoListScreen(
-                          docId,
-                        ),
-                      ),
-                    )
-                        .then((value) {
-                      setState(() {});
-                    });
-                  },
-                  child: Card(
-                    color: bg,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${data['title']}",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: "lato",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                return
+                  Slidable(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                            builder: (context) => TodoListScreen(
+                              docId,
                             ),
                           ),
-                          //
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child:Column(
-                              children: [
-                                Material(
-                                  color: Colors.white,
-                                  child: Ink(
-                                    decoration: const ShapeDecoration(
-                                      color: Colors.green,
-                                      shape: CircleBorder(),
-                                    ),
-                                    child: IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(
-                                          MaterialPageRoute(
-                                            builder: (context) => ViewCategory(
-                                              data,
-                                              formattedTime,
-                                              snapshot.data!.docs[index].reference,
-                                            ),
-                                          ),
-                                        )
-                                            .then((value) {
-                                          setState(() {});
-                                        });
-                                      },
+                        )
+                            .then((value) {
+                          setState(() {});
+                        });
+                      },
+                      child: Card(
+                        color: bg,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 15,),
+                              Row(
+                                children:  <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      "${data['title']}",
+                                      style: TextStyle(
+                                        fontSize: 25.0,
+                                        fontFamily: "lato",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                );
+                    actionPane: SlidableScrollActionPane(),
+                    actions:<Widget> [
+                      IconSlideAction(
+                        caption: 'Edit',
+                        color: Colors.green,
+                        icon: Icons.edit,
+                        onTap: () =>Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                            builder: (context) => ViewCategory(
+                              data,
+                              formattedTime,
+                              snapshot.data!.docs[index].reference,
+                            ),
+                          ),
+                        )
+                            .then((value) {
+                          setState(() {});
+                        }),
+                      ),
+                    ],
+                    actionExtentRatio: 1/5,
+                  );
               },
             );
           } else {
