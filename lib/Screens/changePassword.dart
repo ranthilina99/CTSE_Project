@@ -77,9 +77,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter password';
                     }
-                    // if (!regex.hasMatch(value)) {
-                    //   return ("Enter Valid Password(Min. 6 Character)");
-                    // }
+                    if (!regex.hasMatch(value)) {
+                      return ("Enter Valid Password(Min. 6 Character)");
+                    }
                     return null;
                   },
 

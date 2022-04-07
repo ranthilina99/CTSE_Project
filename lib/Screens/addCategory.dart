@@ -10,6 +10,7 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+
   late String title;
   late String des;
 
@@ -52,6 +53,28 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   ),
                   //
                   ElevatedButton(
+                    onPressed:(){} ,
+                    child: Text(
+                      "Icons",
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: "lato",
+                        color: Colors.white,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Colors.green,
+                      ),
+                      padding: MaterialStateProperty.all(
+                        EdgeInsets.symmetric(
+                          horizontal: 45.0,
+                          vertical: 8.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
                     onPressed: add,
                     child: Text(
                       "Save",
@@ -67,12 +90,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                       padding: MaterialStateProperty.all(
                         EdgeInsets.symmetric(
-                          horizontal: 25.0,
+                          horizontal: 45.0,
                           vertical: 8.0,
                         ),
                       ),
                     ),
                   ),
+
                 ],
               ),
               //

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ctseproject/Screens/about.dart';
 import 'package:ctseproject/Screens/changeProfile.dart';
+import 'package:ctseproject/Screens/contact.dart';
 import 'package:ctseproject/Screens/login.dart';
 import 'package:ctseproject/Screens/changePassword.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -147,7 +149,8 @@ class _SettingState extends State<Setting> {
               .size
               .width,
           onPressed: () {
-
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => About(),),);
           },
           child: Text(
             "About us",
@@ -167,7 +170,8 @@ class _SettingState extends State<Setting> {
               .size
               .width,
           onPressed: () {
-
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Contact(),),);
           },
           child: Text(
             "ContactUs",

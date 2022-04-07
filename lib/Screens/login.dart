@@ -35,25 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
         checkUserLevel(value.user!.uid);
       });
 
-    }on FirebaseException catch(error){
-
-      if(error.code == 'user not found'){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.blueGrey,
-          content: Text('No user found for that email',
-            style: TextStyle(
-                fontSize: 10.0,color: Colors.amber
-            ),),
-        ),);
-      }else if(error.code == 'wrong password'){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.blueGrey,
-          content: Text('Wrong password provide by the user',
-            style: TextStyle(
-                fontSize: 10.0,color: Colors.amber
-            ),),
-        ),);
-      }
+    } catch(error){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Login Failed",
+          style: TextStyle(fontSize: 15.0),),),);
     }
   }
 
@@ -125,9 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
-                      // if (!regex.hasMatch(value)) {
-                      //   return ("Enter Valid Password(Min. 6 Character)");
-                      // }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid Password(Min. 6 Character)");
+                      }
                       return null;
                     }
                 ),
