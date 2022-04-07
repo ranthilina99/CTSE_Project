@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ctseproject/Screens/budget.dart';
 import 'package:ctseproject/Screens/viewnote.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 Random random = new Random();
                 Color bg = myColors[random.nextInt(4)];
                 Map? data = snapshot.data!.docs[index].data() as Map?;
+                String docId1 = snapshot.data!.docs[index].id;
                 DateTime mydateTime = data!['created'].toDate();
                 String formattedTime =
                 DateFormat.yMMMd().add_jm().format(mydateTime);
@@ -97,10 +99,9 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     Navigator.of(context)
                         .push(
                       MaterialPageRoute(
-                        builder: (context) => ViewNote(
-                          data,
-                          formattedTime,
-                          snapshot.data!.docs[index].reference,
+                        builder: (context) => BudgectScreen(
+                          docId1,
+                          widget.id,
                         ),
                       ),
                     )
@@ -127,12 +128,32 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           //
                           Container(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              formattedTime,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: "lato",
-                                color: Colors.black87,
+                            child:  Material(
+                              color: Colors.white,
+                              child: Ink(
+                                decoration: const ShapeDecoration(
+                                  color: Colors.green,
+                                  shape: CircleBorder(),
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewNote(
+                                          data,
+                                          formattedTime,
+                                          snapshot.data!.docs[index].reference,
+                                        ),
+                                      ),
+                                    )
+                                        .then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                           ),

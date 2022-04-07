@@ -66,13 +66,13 @@ class _ProfileState extends State<Profile> {
           backgroundColor: Color(0xff0095FF),
         ),
         backgroundColor: Colors.white,
-        body:Column(
+        body:ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Image.asset("images/profile.png"),
           ),
-          SizedBox(height: 20.0,),
+          SizedBox(height: 10.0,),
 
           Column(
             children: [
@@ -85,7 +85,7 @@ class _ProfileState extends State<Profile> {
               ),
             ],
           ),
-          SizedBox(height: 20.0,),
+          SizedBox(height: 10.0,),
 
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +125,7 @@ class _ProfileState extends State<Profile> {
               ),
             ],
           ),
-          SizedBox(height: 20.0,),
+          SizedBox(height: 10.0,),
 
           Column(
             children: [

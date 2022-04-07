@@ -37,9 +37,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  registration() async{
-    if(password == confirmPassword){
-      try{
+  registration() async {
+    if (password == confirmPassword) {
+      try {
         UserModel userModel = UserModel();
 
         userModel.email = email;
@@ -48,9 +48,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         userModel.firstName = firstName;
         userModel.isUser = 1;
 
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) {
-          FirebaseFirestore.instance.collection('Users').doc(value.user?.uid).set(
-            userModel.toMap()
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email, password: password).then((value) {
+          FirebaseFirestore.instance.collection('Users')
+              .doc(value.user?.uid)
+              .set(
+              userModel.toMap()
           );
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -58,37 +61,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text("Register Successfully",
             style: TextStyle(fontSize: 15.0),),),);
 
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginScreen(),),);
-      }on FirebaseException catch(error){
-        if(error.code == 'weak password'){
-          print('Password is to weak');
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.black26,
-            content: Text('Password is to weak',
-              style: TextStyle(
-                  fontSize: 10.0,color: Colors.amber
-              ),),
-          ),);
-        }else if(error.code == 'email already in use'){
-          print('Account is already exists');
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.black26,
-            content: Text('Account is already exists',
-              style: TextStyle(
-                  fontSize: 10.0,color: Colors.amber
-              ),),
-          ),);
-        }else{
-          print('Password and confirm password does not match');
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.black26,
-            content: Text('Password and confirm password does not match',
-              style: TextStyle(
-                  fontSize: 10.0,color: Colors.amber
-              ),),
-          ),);
-        }
+        Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+      } on FirebaseException catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("Register Failed",
+            style: TextStyle(fontSize: 15.0),),),);
       }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Do not mach password",
+          style: TextStyle(fontSize: 15.0),),),);
     }
   }
 
@@ -119,6 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     labelStyle: TextStyle(fontSize: 20.0),
                     border: OutlineInputBorder(),
                     errorStyle: TextStyle(color: Colors.black26,fontSize: 15.0),
+                      prefixIcon: Icon(Icons.person,color: Colors.black26,)
                   ),
                   controller: firstNameController,
                   validator:  (value){
@@ -138,6 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     labelStyle: TextStyle(fontSize: 20.0),
                     border: OutlineInputBorder(),
                     errorStyle: TextStyle(color: Colors.black26,fontSize: 15.0),
+                      prefixIcon: Icon(Icons.person,color: Colors.black26,)
                   ),
                   controller: lastNameController,
                   validator:  (value){
@@ -157,6 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     labelStyle: TextStyle(fontSize: 20.0),
                     border: OutlineInputBorder(),
                     errorStyle: TextStyle(color: Colors.black26,fontSize: 15.0),
+                      prefixIcon: Icon(Icons.email,color: Colors.black26,)
                   ),
                   controller: emailController,
                   validator:  (value){
@@ -181,6 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       border: OutlineInputBorder(),
                       errorStyle: TextStyle(color: Colors.black26,
                           fontSize: 15.0),
+                        prefixIcon: Icon(Icons.password,color: Colors.black26,)
                     ),
                     controller: passwordController,
                     validator:(value) {
@@ -188,9 +177,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
-                      // if (!regex.hasMatch(value)) {
-                      //   return ("Enter Valid Password(Min. 6 Character)");
-                      // }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid Password(Min. 6 Character)");
+                      }
                       return null;
                     }
                 ),
@@ -206,6 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       border: OutlineInputBorder(),
                       errorStyle: TextStyle(color: Colors.black26,
                           fontSize: 15.0),
+                        prefixIcon: Icon(Icons.password,color: Colors.black26,)
                     ),
                     controller: confirmPasswordController,
                     validator:(value) {
@@ -213,9 +203,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
-                      // if (!regex.hasMatch(value)) {
-                      //   return ("Enter Valid Password(Min. 6 Character)");
-                      // }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid Password(Min. 6 Character)");
+                      }
                       return null;
                     }
                 ),
