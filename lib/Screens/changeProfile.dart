@@ -26,11 +26,17 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
   FirebaseFirestore.instance.collection('Users');
 
   Future<void> update(uid, firstName, email, lastName) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+      content: Text("Update Successfully",
+        style: TextStyle(fontSize: 15.0),),),);
+
     return users
         .doc(uid)
         .update({'firstName': firstName, 'email': email, 'lastName': lastName})
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
+
   }
 
   @override
@@ -38,6 +44,7 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Update Profile"),
+        backgroundColor: Color(0xff0095FF),
       ),
       body: Form(
           key: _formKey,
@@ -130,11 +137,15 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
                         },
                       ),
                     ),
+                    SizedBox(height: 45),
                     Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton(
+                      child: Material(
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color(0xff0095FF),
+                        child: MaterialButton(
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 update(uid, firstName, email, lastName);
@@ -142,13 +153,13 @@ class _ChangeProfileScreenState extends State<ChangeProfileScreen> {
                               }
                             },
                             child: Text(
-                              'Update',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ),
-                        ],
+                              "Update Profile",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                            )),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

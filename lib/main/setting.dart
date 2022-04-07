@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ctseproject/Screens/about.dart';
 import 'package:ctseproject/Screens/changeProfile.dart';
+import 'package:ctseproject/Screens/contact.dart';
 import 'package:ctseproject/Screens/login.dart';
-import 'package:ctseproject/main/changePassword.dart';
+import 'package:ctseproject/Screens/changePassword.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,41 +17,57 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
+  CollectionReference ref = FirebaseFirestore.instance
+      .collection('Users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('notes');
+
   User? user = FirebaseAuth.instance.currentUser;
 
-  delete() async {
+  delete(String uid) async{
     try{
       await FirebaseFirestore.instance.collection("Users").doc(uid).delete();
       FirebaseAuth.instance.signOut();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.black,
+        content: Text("Delete Successfully",
+          style: TextStyle(fontSize: 20.0),),),);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
     }catch(error){
       print(error);
     }
   }
-  logout() async{
+
+  logout() async {
     await FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()), (
+        route) => false);
     print("Thank You");
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Colors.black26,
       content: Text('Thank You',
         style: TextStyle(
-            fontSize: 10.0,color: Colors.white
+            fontSize: 10.0, color: Colors.white
         ),),
     ),);
   }
+
   @override
   Widget build(BuildContext context) {
-
-    final loginButton = Material(
+    final ChangeProfile = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: Color(0xff0095FF),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          minWidth: MediaQuery.of(context).size.width,
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ChangeProfileScreen(),),);
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ChangeProfileScreen(),),);
           },
           child: Text(
             "Change Profile",
@@ -58,15 +76,19 @@ class _SettingState extends State<Setting> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
-    final loginButton1 = Material(
+    final ChangePasssword = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: Color(0xff0095FF),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          minWidth: MediaQuery.of(context).size.width,
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePassword(),),);
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ChangePassword(),),);
           },
           child: Text(
             "Change Password",
@@ -75,16 +97,19 @@ class _SettingState extends State<Setting> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
-    final loginButton2 = Material(
+    final Delete = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
+      color: Color(0xff0095FF),
       child: MaterialButton(
 
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          minWidth: MediaQuery.of(context).size.width,
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
           onPressed: () {
-           delete();
+            _delete(user!.uid);
           },
           child: Text(
             "Delete Account",
@@ -96,10 +121,13 @@ class _SettingState extends State<Setting> {
     final Logout = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      color: Color(0xff0095FF),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          minWidth: MediaQuery.of(context).size.width,
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
           onPressed: () {
             logout();
           },
@@ -110,7 +138,53 @@ class _SettingState extends State<Setting> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
+    final Aboutus = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: Color(0xff0095FF),
+      child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
+          onPressed: () {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => About(),),);
+          },
+          child: Text(
+            "About us",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+    );
+    final ContactUs = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: Color(0xff0095FF),
+      child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery
+              .of(context)
+              .size
+              .width,
+          onPressed: () {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Contact(),),);
+          },
+          child: Text(
+            "ContactUs",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+    );
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Setting"),
+        backgroundColor: Color(0xff0095FF),
+      ),
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
@@ -123,15 +197,17 @@ class _SettingState extends State<Setting> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 45),
-                    loginButton,
-                    SizedBox(height: 25),
-                    loginButton1,
                     SizedBox(height: 35),
-                    loginButton2,
-                    SizedBox(height: 155),
-                    Logout,
-                    SizedBox(height: 15),
+                    ChangeProfile,
+                    SizedBox(height: 35),
+                    ChangePasssword,
+                    SizedBox(height: 35),
+                    Delete,
+                    SizedBox(height: 35),
+                    Aboutus,
+                    SizedBox(height: 35),
+                    ContactUs,
+                    SizedBox(height: 35),
                   ],
                 ),
               ),
@@ -141,5 +217,33 @@ class _SettingState extends State<Setting> {
       ),
     );
   }
-}
 
+  void _delete(String uid) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: const Text('Please Confirm'),
+            content: const Text('Are you sure to remove the box?'),
+            actions: [
+              // The "Yes" button
+              TextButton(
+                  onPressed: () {
+                    // Remove the box
+                    delete(uid);
+
+                    // Close the dialog
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Yes')),
+              TextButton(
+                  onPressed: () {
+                    // Close the dialog
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('No'))
+            ],
+          );
+        });
+  }
+}

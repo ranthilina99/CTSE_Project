@@ -37,6 +37,21 @@ dependencies:
   firebase_core: any
   firebase_auth: any
   cloud_firestore: any
+  flutter_slidable: ^0.6.0
+  intl: ^0.17.0
+  get: 4.1.4
+  flutter_settings_screens: ^0.3.2-null-safety
+  fluttertoast: ^8.0.9
+  auto_size_text: ^2.1.0
+  get_storage:
+  flutter_local_notifications: ^9.0.0
+  flutter_native_timezone:
+  date_picker_timeline:
+  google_fonts:
+  flutter_iconpicker: ^3.0.2
+
+  # state management
+  provider: any
 
 dev_dependencies:
   flutter_test:

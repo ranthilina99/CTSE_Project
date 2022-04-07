@@ -4,9 +4,10 @@ class UserModel {
   String? email;
   String? password;
   String? uid;
+  int? isUser = 1;
 
 // receiving data
-  UserModel({this.firstName,this.lastName,this.uid, this.email, this.password});
+  UserModel({this.firstName,this.lastName,this.uid, this.email, this.password,this.isUser});
   factory UserModel.fromMap(map) {
     return UserModel(
       firstName: map['firstName'],
@@ -14,6 +15,7 @@ class UserModel {
       uid: map['uid'],
       email: map['email'],
       password: map['password'],
+      isUser: map['isUser'],
     );
   }
 // sending data
@@ -23,6 +25,7 @@ class UserModel {
       'lastName': lastName,
       'email': email,
       'password': password,
+      'isUser': isUser,
     };
   }
 }
