@@ -90,9 +90,9 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 Color bg = myColors[random.nextInt(4)];
                 Map? data = snapshot.data!.docs[index].data() as Map?;
                 String docId1 = snapshot.data!.docs[index].id;
-                DateTime mydateTime = data!['created'].toDate();
-                String formattedTime =
-                DateFormat.yMMMd().add_jm().format(mydateTime);
+                String mydateTime ="${data!['date']}";
+
+                String formattedTime =mydateTime.toString();
 
                 return InkWell(
                   onTap: () {
@@ -118,6 +118,36 @@ class _TodoListScreenState extends State<TodoListScreen> {
                         children: [
                           Text(
                             "${data['title']}",
+                            style: TextStyle(
+                              fontSize: 40.0,
+                              fontFamily: "lato",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                          ),
+                          SizedBox(height: 35),
+                          Text(
+                            "Start Time" +" " +"${data['startDate']}",
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: "lato",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 25),
+                          Text(
+                            "End Time" +" " +"${data['endDate']}",
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: "lato",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(height: 25),
+                          Text(
+                            "Date" +" " + "${data['date']}",
                             style: TextStyle(
                               fontSize: 24.0,
                               fontFamily: "lato",
