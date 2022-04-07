@@ -184,7 +184,7 @@ class _ViewNoteState extends State<ViewNote> {
                           fontFamily: "lato",
                           color: Colors.grey,
                         ),
-                        initialValue: widget.data['description'],
+                        initialValue: widget.data['note'],
                         enabled: edit,
                         onChanged: (_val) {
                           des = _val;
@@ -212,7 +212,7 @@ class _ViewNoteState extends State<ViewNote> {
   void delete() async {
     // delete from db
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.green,
       content: Text("Delete Successfully",
         style: TextStyle(fontSize: 15.0),),),);
     await widget.ref.delete();
@@ -227,7 +227,7 @@ class _ViewNoteState extends State<ViewNote> {
           style: TextStyle(fontSize: 15.0),),),);
       // TODo : showing any kind of alert that new changes have been saved
       await widget.ref.update(
-        {'title': title, 'description': des},
+        {'title': title, 'note': des},
       );
       Navigator.of(context).pop();
     }

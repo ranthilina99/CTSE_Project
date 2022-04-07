@@ -120,6 +120,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       onChanged: (_val) {
                         title = _val;
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter title';
+                        }
+                        return null;
+                      },
                     ),
                     //
                     Container(
@@ -137,6 +143,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         onChanged: (_val) {
                           des = _val;
                         },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter description';
+                          }
+                          return null;
+                        },
                         maxLines: 20,
                       ),
                     ),
@@ -152,25 +164,33 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   void add() async {
     // save to db
-    CollectionReference ref = FirebaseFirestore.instance
-        .collection('Users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('Categories');
+    if(title.isEmpty || des.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text("Add Create Failed",
+          style: TextStyle(fontSize: 15.0),),),);
 
-    var data = {
-      'title': title,
-      'description': des,
-      'created': DateTime.now(),
-    };
+    }else {
+      CollectionReference ref = FirebaseFirestore.instance
+          .collection('Users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('Categories');
 
-    ref.add(data);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.green,
-      content: Text("Category Create Successfully",
-        style: TextStyle(fontSize: 15.0),),),);
+      var data = {
+        'title': title,
+        'description': des,
+        'created': DateTime.now(),
+      };
 
-    //
+      ref.add(data);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.green,
+        content: Text("Category Create Successfully",
+          style: TextStyle(fontSize: 15.0),),),);
 
-    Navigator.pop(context);
+      //
+
+      Navigator.pop(context);
+    }
   }
 }

@@ -1,11 +1,10 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ctseproject/Screens/budget.dart';
 import 'package:ctseproject/Screens/viewnote.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'addnote.dart';
 
@@ -87,81 +86,113 @@ class _TodoListScreenState extends State<TodoListScreen> {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 Random random = new Random();
-                Color bg = myColors[random.nextInt(4)];
+                Color bg = myColors[random.nextInt(2)];
                 Map? data = snapshot.data!.docs[index].data() as Map?;
                 String docId1 = snapshot.data!.docs[index].id;
-                DateTime mydateTime = data!['created'].toDate();
-                String formattedTime =
-                DateFormat.yMMMd().add_jm().format(mydateTime);
+                String mydateTime ="${data!['date']}";
 
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(
-                      MaterialPageRoute(
-                        builder: (context) => BudgectScreen(
-                          docId1,
-                          widget.id,
-                        ),
-                      ),
-                    )
-                        .then((value) {
-                      setState(() {});
-                    });
-                  },
-                  child: Card(
-                    color: bg,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${data['title']}",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: "lato",
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                String formattedTime =mydateTime.toString();
+
+                return
+                  Slidable(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                            builder: (context) => BudgectScreen(
+                              docId1,
+                              widget.id,
                             ),
                           ),
-                          //
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child:  Material(
-                              color: Colors.white,
-                              child: Ink(
-                                decoration: const ShapeDecoration(
-                                  color: Colors.green,
-                                  shape: CircleBorder(),
-                                ),
-                                child: IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(
-                                      MaterialPageRoute(
-                                        builder: (context) => ViewNote(
-                                          data,
-                                          formattedTime,
-                                          snapshot.data!.docs[index].reference,
-                                        ),
-                                      ),
-                                    )
-                                        .then((value) {
-                                      setState(() {});
-                                    });
-                                  },
+                        )
+                            .then((value) {
+                          setState(() {});
+                        });
+                      },
+                      child: Card(
+                        color: bg,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${data['title']}",
+                                style: TextStyle(
+                                  fontSize: 25.0,
+                                  fontFamily: "lato",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
                               ),
-                            ),
+                              SizedBox(height: 15,),
+                              Text(
+                                "Start Time" +" " +"${data['startDate']}",
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontFamily: "lato",
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(238, 109, 108, 108)
+                                ),
+                              ),
+
+                              Row(
+                                children:  <Widget>[
+                                  Expanded(
+                                    child: Text(
+                                      "End Time" +" " +"${data['endDate']}",
+                                      style: TextStyle(
+                                          fontSize: 17.0,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(238, 109, 108, 108)
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "Date :" +" " + "${data['date']}",
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          fontSize: 17.0,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(238, 109, 108, 108)
+
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                );
+                    actionPane: SlidableScrollActionPane(),
+                    actions:<Widget> [
+                      IconSlideAction(
+                        caption: 'Edit',
+                        color: Colors.green,
+                        icon: Icons.edit,
+                        onTap: () =>Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                            builder: (context) => ViewNote(
+                              data,
+                              formattedTime,
+                              snapshot.data!.docs[index].reference,
+                            ),
+                          ),
+                        )
+                            .then((value) {
+                          setState(() {});
+                        }),
+                      ),
+                    ],
+                    actionExtentRatio: 1/5,
+                  );
               },
             );
           } else {
@@ -174,3 +205,4 @@ class _TodoListScreenState extends State<TodoListScreen> {
     );
   }
 }
+
