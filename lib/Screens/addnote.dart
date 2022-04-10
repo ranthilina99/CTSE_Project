@@ -250,7 +250,7 @@ class _AddNoteState extends State<AddNote> {
     ref.add(data);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Colors.green,
-      content: Text("Category Create Successfully",
+      content: Text("Note Create Successfully",
         style: TextStyle(fontSize: 15.0),),),);
 
     //

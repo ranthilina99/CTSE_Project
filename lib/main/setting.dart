@@ -29,7 +29,7 @@ class _SettingState extends State<Setting> {
       await FirebaseFirestore.instance.collection("Users").doc(uid).delete();
       FirebaseAuth.instance.signOut();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.green,
         content: Text("Delete Successfully",
           style: TextStyle(fontSize: 20.0),),),);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
@@ -224,7 +224,7 @@ class _SettingState extends State<Setting> {
         builder: (BuildContext ctx) {
           return AlertDialog(
             title: const Text('Please Confirm'),
-            content: const Text('Are you sure to remove the box?'),
+            content: const Text('Are you sure to remove the account?'),
             actions: [
               // The "Yes" button
               TextButton(
